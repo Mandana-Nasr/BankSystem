@@ -32,16 +32,69 @@ public class BankFacade {
 
     public void deposit(double amount) {
         currentAccount.credit(amount);
-        repository.addTransaction(
-                transactionFactory.createTransaction("DEPOSIT", amount)
-        );
+
+        Transaction t=transactionFactory.createTransaction("DEPOSIT", amount);
+        currentAccount.addTransaction(t);
     }
 
     public void withdraw(double amount) {
+        double before = currentAccount.getBalance();
         currentAccount.debit(amount);
-        repository.addTransaction(
-                transactionFactory.createTransaction("WITHDRAW", amount)
+
+        double after = currentAccount.getBalance();
+        double fee=before-after-amount;
+
+        currentAccount.addTransaction(transactionFactory.createTransaction("WITHDRAW", amount));
+
+        if(fee>0) {
+            currentAccount.addTransaction(transactionFactory.createTransaction("FEE",fee));
+
+        }
+
+//        Transaction t= transactionFactory.createTransaction("WITHDRAW", amount);
+//        currentAccount.addTransaction(t);
+    }
+
+    public void showTransactionHistory() {
+        if (currentAccount == null) {
+            throw new IllegalStateException("Ingen användare inloggad");
+        }
+
+        if (currentAccount.getTransactions().isEmpty()) {
+            System.out.println("Inga transaktioner att visa.");
+            return;
+        }
+
+        for (Transaction t : currentAccount.getTransactions()) {
+            System.out.println(t);
+        }
+    }
+
+    public void applyInterest() {
+//        if (currentAccount instanceof SavingsAccount savings) {
+//            double before = savings.getBalance();
+//
+//            savings.applyInterest();
+//
+//            double interest = savings.getBalance() - before;
+//
+//            Transaction t =
+//                    transactionFactory.createTransaction("INTEREST", interest);
+//
+//            currentAccount.addTransaction(t);
+//        } else {
+//            throw new IllegalStateException("Ränta gäller endast sparkonto");
+//        }
+
+        if (!(currentAccount instanceof SavingsAccount savings)) {
+            throw new IllegalStateException("Ränta gäller endast sparkonto");
+        }
+
+        double interest = savings.applyInterest();
+
+        currentAccount.addTransaction(
+                transactionFactory.createTransaction("INTEREST", interest)
         );
     }
-    
+
 }

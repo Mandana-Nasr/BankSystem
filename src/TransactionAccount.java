@@ -5,20 +5,40 @@ public class TransactionAccount extends Account {
         super(accountId);
     }
 
+
+    @Override
     public void withdraw(double amount) {
-
-        double total = amount + WITHDRAW_FEE;
-
-        if (balance >= total) {
-            balance -= total;
-        } else {
-            throw new IllegalArgumentException("Otillräckligt saldo (inklusive avgift)");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Belopp måste vara större än 0");
         }
+
+        double fee = calculateFee(amount);
+        double total = amount + fee;
+
+//        if (balance >= total) {
+//            balance -= total;
+//
+//            addTransaction(new Transaction(accountId, amount, "WITHDRAW"));
+//            addTransaction(new Transaction(accountId,amount,"FEE"));
+//        } else {
+//            throw new IllegalArgumentException(
+//                    "Otillräckligt saldo (inklusive avgift)"
+//            );
+//        }
+
+        if (total > balance) {
+            throw new IllegalArgumentException(
+                    "Otillräckligt saldo (inklusive avgift)"
+            );
+        }
+
+        balance -= total;
+
     }
 
     @Override
     public double calculateFee(double amount) {
         return amount * 0.01; // 1 % avgift
     }
-
 }
+

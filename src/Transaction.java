@@ -15,6 +15,7 @@ public class Transaction {
         this.timestamp = LocalDateTime.now();
     }
 
+
     public String getTransactionId() {
         return transactionId;
     }
@@ -29,6 +30,11 @@ public class Transaction {
 
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return timestamp + " - " + type + ": " + amount + " kr";
     }
 
 }

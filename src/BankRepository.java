@@ -4,11 +4,11 @@ public class BankRepository {
     private static BankRepository instance;
 
     private List<Account> accounts;
-    private List<Transaction> transactions;
+    //private List<Transaction> transactions;
 
     private BankRepository() {
         accounts = new ArrayList<>();
-        transactions = new ArrayList<>();
+        //transactions = new ArrayList<>();
     }
 
     public static BankRepository getInstance() {
@@ -29,11 +29,11 @@ public class BankRepository {
                 .orElse(null);
     }
 
-    public void addTransaction(Transaction transaction) {
-        transactions.add(transaction);
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
+//    public void addTransaction(Transaction transaction) {
+//        transactions.add(transaction);
+//    }
+//
+//    public List<Transaction> getTransactions() {
+//        return transactions;
+//    }
 }

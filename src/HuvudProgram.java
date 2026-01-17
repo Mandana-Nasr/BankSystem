@@ -65,7 +65,8 @@ public class HuvudProgram {
             System.out.println("1. Visa saldo");
             System.out.println("2. Sätt in pengar");
             System.out.println("3. Ta ut pengar");
-            System.out.println("4. Logga ut");
+            System.out.println("4. Visa transaktionshistorik");
+            System.out.println("5. Logga ut");
             System.out.print("Val: ");
 
             int choice = scanner.nextInt();
@@ -88,13 +89,19 @@ public class HuvudProgram {
                     double withdraw = scanner.nextDouble();
                     bank.withdraw(withdraw);
                     System.out.println("Uttag genomfört.");
+
                     break;
 
                 case 4:
+                    bank.showTransactionHistory();
+                    break;
+
+                case 5:
                     bank.logout();
                     loggedIn = false;
                     System.out.println("Du har loggat ut.");
                     break;
+
 
                 default:
                     System.out.println("Ogiltigt val.");
